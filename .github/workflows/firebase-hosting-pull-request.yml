@@ -26,7 +26,7 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MINIBLOG_DANILO_FA273 }}
           channelId: live
-          projectId: miniblog-victor-nicolau
+          projectId: miniblog-danilo-fa273
 
                 # Checkout the repository
       - uses: actions/checkout@v4
