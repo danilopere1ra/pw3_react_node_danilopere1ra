@@ -1,9 +1,9 @@
-import { db } from '../firebase'
+import { db } from './../firebase/config'
 import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    uptadeProfile,
+    updateProfile,
     signOut
 } from 'firebase/auth'
 import { useState, useEffect } from 'react'
@@ -31,10 +31,10 @@ export const useAuthentication = () => {
             const { user } = await createUserWithEmailAndPassword(
                 auth,
                 data.email,
-                data.passaword
+                data.password
             )
 
-            await uptadeProfile(user, {
+            await updateProfile(user, {
                 displayName: data.displayName
             })
 
@@ -47,11 +47,11 @@ export const useAuthentication = () => {
             let systemErrorMessage
 
             if (error.message.includes('Password')) {
-                systemErrorMessage = 'A senha precisa conter ao menos 6 caracteres'
-            } else if (error.message.includes('email-alread')) {
+                systemErrorMessage = 'A senha precisa conter ao menos 6 caracteres.'
+            } else if (error.message.includes('email-already')) {
                 systemErrorMessage = 'Este e-mail já existe em nossos sistemas'
             } else {
-                systemErrorMessage = 'Tente mais tarde nosso sistema está indisponivel'
+                systemErrorMessage = 'Tente mais tarde, nosso sistema está indisponível.'
             }
 
             setLoading(false)
@@ -69,7 +69,7 @@ export const useAuthentication = () => {
             await signInWithEmailAndPassword(
                 auth,
                 data.email,
-                data.passaword
+                data.password
             )
             setLoading(false)
         } catch (error) {
@@ -79,11 +79,11 @@ export const useAuthentication = () => {
             let systemErrorMessage
 
             if (error.message.includes('invalid-login-credentials')) {
-                systemErrorMessage = 'Este usuário não existe em nosso sistema'
+                systemErrorMessage = 'Este usuário não existe em nosso sistemas.'
             } else if (error.message.includes('wrong-password')) {
-                systemErrorMessage = 'Senha ou login incorretos'
+                systemErrorMessage = 'Há algum erro com suas informações'
             } else {
-                systemErrorMessage = 'Tente mais tarde nosso sistema está indisponivel'
+                systemErrorMessage = 'Tente mais tarde, nosso sistema está indisponível.'
             }
 
             setLoading(false)
@@ -96,7 +96,7 @@ export const useAuthentication = () => {
         signOut(auth)
     }
 
-    useEffect(()=>{
+    useEffect(() =>{
         return () => setCancelled(true)
     }, [])
 

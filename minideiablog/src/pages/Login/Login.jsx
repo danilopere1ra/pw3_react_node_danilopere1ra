@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './Login.module.css'
 import { useAuthentication } from '../../hooks/useAuthentication'
 import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
-    const [email, setEmail] = setState()
-    const [password, setPassword] = setState()
-    const [error, setError] = setState()
+    const [email, setEmail] = useState()
+    const [password, setPassword] =useState()
+    const [error, setError] = useState()
 
-    const {login , error: authError, loading} = useAuthentication()
+    const { login, error: authError, loading } = useAuthentication()
     const navigate = useNavigate()
 
     const handlerSubmit = async(e) => {
       e.preventDefault()
       setError('')
-      const usere = {
+      const user ={
         email,
         password
       }
@@ -25,7 +25,7 @@ const Login = () => {
     }
 
     useEffect(() =>{
-      if(authError) {
+      if(authError){
         setError(authError)
       }
     }, [authError])
@@ -35,7 +35,7 @@ const Login = () => {
       <p>Compartilhe suas ideias! Aqui no nosso App</p>
       <form onSubmit={handlerSubmit}>
         <label>
-          <span>E-mail</span>
+          <span>E-mail: </span>
           <input
           type='email'
           name='email'
@@ -44,17 +44,17 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder='Digite seu e-mail'
           >
-            </input>
+          </input>
         </label>
         <label>
-          <span>Senha</span>
+          <span>Senha:</span>
           <input
           type='password'
           name='password'
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder='Entre com sua Senha'
+          placeholder='Entre com sua senha'
           >
           </input>
         </label>
@@ -62,7 +62,7 @@ const Login = () => {
         {loading && <button className='btn' disabled>Aguarde...</button>}
         {error && <p className='error'>{error}</p>}
       </form>
-     </div>
+    </div>
   )
 }
 
