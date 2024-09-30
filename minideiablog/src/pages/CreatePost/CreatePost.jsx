@@ -1,18 +1,21 @@
-import { useState } from 'react'
+import { useState } from "react"
+import banner from "/banner_home.png"
 import style from './CreatePost.module.css'
-import { userInsertDocument } from '../../hooks/userInsertDocument'
-import {useAuthValue} from '../../context/AuthContext'
 
 const CreatePost = () => {
   const [title, setTitle] = useState();
-  const [image, setIgame] = useState();
+  const [image, setImage] = useState();
   const [body, setBody] = useState();
   const [tags, setTags] = useState();
   const [formError, setFormError] = useState();
-  const {user} = userAuthValue();
-    return (
-        <>
-        </>
+  
+  return (
+    <>
+    <div>
+      <h1>Suas novas Ideias</h1>
+      <img src={banner} alt="Banner do Site" />
+    </div>
+    </>
   )
 }
 
