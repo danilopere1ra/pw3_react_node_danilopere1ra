@@ -1,18 +1,17 @@
-//import banner from "/banner_home.png"
-import style from './CreatePost.module.css'
+import styles from './CreatePost.module.css'
 import { useState } from 'react'
-import { useInsertDocument } from '../../hooks/userInsertDocument'
+import { useInsertDocument } from '../../hooks/useInsertDocument'
 import { useNavigate } from 'react-router-dom'
-import { useAuthvalue } from '../../context/AuthContext'
+import { useAuthValue } from '../../context/AuthContext'
 
 const CreatePost = () => {
   const [title, setTitle] = useState("")
   const [image, setImage] = useState("")
   const [body, setBody] = useState("")
   const [tags, setTags] = useState([])
-  const [formError, setFormError] = useState("")
-  const { user } = useAuthvalue()
-
+  const [forms, setForms] = useState("")
+  const [formError, setFormError] = useState()
+  const { user } = useAuthValue()
   const navigate = useNavigate()
 
   const { insertDocument, response } = useInsertDocument("posts")
@@ -21,32 +20,32 @@ const CreatePost = () => {
     e.preventDefault();
     setFormError("")
 
-    try{
+    try {
       new URL(image)
-    } catch(error) {
+    } catch (error) {
       setFormError("A imagem precisa ser uma URL.")
     }
 
     const tagsArray = tags.split(",").map((tag) => tag.trim().toLowerCase())
 
     if(!title || !image || !tags || !body){
-      setFormError("Por favor, preencha todos os campos para postagens!")
+      setFormError("Por favor, preencha todos os campos para postagem!")
     }
 
-    console.log(tagArray)
+    console.log(tagsArray)
 
     console.log(
-      { 
-      title,
-      image,
-      body,
-      tags: tagsArray,
-      uid: user.uid,
-      createBy: user.displayName
-  }
+      {
+        title,
+        image,
+        body,
+        tags: tagsArray,
+        uid: user.uid,
+        createBy: user.displayName
+      }
     )
 
-    if(formError) return 
+    if(formError) return
 
     insertDocument(
       {
@@ -62,7 +61,7 @@ const CreatePost = () => {
   }
   return (
     <>
-   <div className={styles.create_post}>
+<div className={styles.create_post}>
         <h2>Nova Postagem</h2>
         <p>Compartilhe sua experiência no mundo desenvolvedor</p>
         <form onSubmit={handlerSubmit}>
