@@ -1,67 +1,69 @@
 import styles from './CreatePost.module.css'
-import { useState } from 'react'
-import { useInsertDocument } from '../../hooks/useInsertDocument'
-import { useNavigate } from 'react-router-dom'
-import { useAuthValue } from '../../context/AuthContext'
+import { useState } from "react";
+import { useInsertDocument } from "../../hooks/useInsertDocument";
+import { useNavigate } from "react-router-dom";
+import { useAuthValue } from "../../context/AuthContext";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("")
   const [image, setImage] = useState("")
   const [body, setBody] = useState("")
   const [tags, setTags] = useState([])
-  const [forms, setForms] = useState("")
-  const [formError, setFormError] = useState()
-  const { user } = useAuthValue()
-  const navigate = useNavigate()
+  const [formError, setFormError] = useState("")
+  const { user } = useAuthValue();
 
-  const { insertDocument, response } = useInsertDocument("posts")
+  const navigate = useNavigate();
+
+  const { insertDocument, response } = useInsertDocument("posts");
 
   const handlerSubmit = (e) => {
     e.preventDefault();
-    setFormError("")
+    setFormError("");
 
+    // validate image
     try {
-      new URL(image)
+      new URL(image);
     } catch (error) {
-      setFormError("A imagem precisa ser uma URL.")
+      setFormError("A imagem precisa ser uma URL.");
     }
 
-    const tagsArray = tags.split(",").map((tag) => tag.trim().toLowerCase())
+    // create tags array
+    const tagsArray = tags.split(",").map((tag) => tag.trim().toLowerCase());
 
-    if(!title || !image || !tags || !body){
-      setFormError("Por favor, preencha todos os campos para postagem!")
+    // check values
+    if (!title || !image || !tags || !body) {
+      setFormError("Por favor, preencha todos os campos!");
     }
 
-    console.log(tagsArray)
+    console.log(tagsArray);
 
-    console.log(
-      {
-        title,
-        image,
-        body,
-        tags: tagsArray,
-        uid: user.uid,
-        createBy: user.displayName
-      }
-    )
+    console.log({
+      title,
+      image,
+      body,
+      tags: tagsArray,
+      uid: user.uid,
+      createdBy: user.displayName,
+    });
 
     if(formError) return
 
-    insertDocument(
-      {
-        title,
-        image,
-        body,
-        tags: tagsArray,
-        uid: user.uid,
-        createBy: user.displayName
-      }
-    )
-    navigate("/")
-  }
+    insertDocument({
+      title,
+      image,
+      body,
+      tags: tagsArray,
+      uid: user.uid,
+      createdBy: user.displayName,
+    });
+
+    // redirect to home page
+    navigate("/");
+  };
+
   return (
     <>
-<div className={styles.create_post}>
+      <div className={styles.create_post}>
         <h2>Nova Postagem</h2>
         <p>Compartilhe sua experiência no mundo desenvolvedor</p>
         <form onSubmit={handlerSubmit}>
