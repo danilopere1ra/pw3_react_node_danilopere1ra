@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "minideiablog-danilo"
-  }
+    "default": "minideiablog-danilo",
+    "prod": "miniblog-danilo-fa273"
+  },
+  "targets": {},
+  "etags": {}
 }
